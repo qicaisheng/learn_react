@@ -54,15 +54,106 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var dom = document.createElement('main');
-	dom.className = 'app-name';
-	document.body.appendChild(dom);
+	var ProductCategoryRow = function ProductCategoryRow(props) {
+	    return _react2.default.createElement(
+	        'tr',
+	        null,
+	        _react2.default.createElement(
+	            'th',
+	            { colSpan: '2' },
+	            props.category
+	        )
+	    );
+	};
 
-	(0, _reactDom.render)(_react2.default.createElement(
-	  'h1',
-	  null,
-	  'Hello, world!'
-	), dom);
+	var ProductRow = function ProductRow(props) {
+	    var name = props.product.stocked ? props.product.name : _react2.default.createElement(
+	        'span',
+	        { style: { color: 'red' } },
+	        props.product.name
+	    );
+	    return _react2.default.createElement(
+	        'tr',
+	        null,
+	        _react2.default.createElement(
+	            'td',
+	            null,
+	            name
+	        ),
+	        _react2.default.createElement(
+	            'td',
+	            null,
+	            props.product.price
+	        )
+	    );
+	};
+
+	var ProductTable = function ProductTable(props) {
+	    var rows = [];
+	    var lastCategory = null;
+	    props.products.forEach(function (product) {
+	        if (product.category !== lastCategory) {
+	            rows.push(_react2.default.createElement(ProductCategoryRow, { category: product.category, key: product.category }));
+	        }
+	        rows.push(_react2.default.createElement(ProductRow, { product: product, key: product.name }));
+	        lastCategory = product.category;
+	    });
+	    return _react2.default.createElement(
+	        'table',
+	        null,
+	        _react2.default.createElement(
+	            'thead',
+	            null,
+	            _react2.default.createElement(
+	                'tr',
+	                null,
+	                _react2.default.createElement(
+	                    'th',
+	                    null,
+	                    'Name'
+	                ),
+	                _react2.default.createElement(
+	                    'th',
+	                    null,
+	                    'Price'
+	                )
+	            )
+	        ),
+	        _react2.default.createElement(
+	            'tbody',
+	            null,
+	            rows
+	        )
+	    );
+	};
+
+	var SearchBar = function SearchBar(props) {
+	    return _react2.default.createElement(
+	        'form',
+	        null,
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Search...' }),
+	        _react2.default.createElement(
+	            'p',
+	            null,
+	            _react2.default.createElement('input', { type: 'checkbox' }),
+	            ' ',
+	            'Only show products in stock'
+	        )
+	    );
+	};
+
+	var FilterableProductTable = function FilterableProductTable(props) {
+	    return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(SearchBar, null),
+	        _react2.default.createElement(ProductTable, { products: props.products })
+	    );
+	};
+
+	var PRODUCTS = [{ category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' }, { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' }, { category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball' }, { category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch' }, { category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5' }, { category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7' }];
+
+	ReactDOM.render(_react2.default.createElement(FilterableProductTable, { products: PRODUCTS }), document.getElementById('container'));
 
 /***/ },
 /* 1 */
